@@ -156,6 +156,7 @@ h1,h2,h3,h4,h5,h6 {
 
 .recipe-list-item {
     max-width: 64rem;
+    height: fit-content;
 }
 
 .recipe-list-item:hover {
