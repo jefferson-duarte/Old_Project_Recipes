@@ -1,3 +1,4 @@
+from ctypes.wintypes import INT
 from django.http import Http404
 from django.shortcuts import render, get_list_or_404, get_object_or_404
 from .models import Recipe
@@ -6,7 +7,7 @@ from django.core.paginator import Paginator
 from utils.pagination import make_pagination
 import os
 
-PER_PAGE = os.environ.get('PER_PAGE', 6)
+PER_PAGE = int(os.environ.get('PER_PAGE', 6))
 
 
 def home(request):
