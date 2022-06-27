@@ -15,7 +15,7 @@ def add_placeholder(field, placeholder_val):
 
 def strong_passord(password):
     regex = re.compile(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,}$')
-    
+
     if not regex.match(password):
         raise ValidationError(
             'Password must have at least one uppercase letter, one lowercase letter and one number. The lenght should be at least 8 characters.',
@@ -26,16 +26,16 @@ def strong_passord(password):
 class RegisterForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        add_placeholder(self.fields['username'], 'Novo test.')
+        add_placeholder(self.fields['username'], 'Your username')
         add_placeholder(self.fields['email'], 'Your email')
         add_placeholder(self.fields['first_name'], 'Ex.: John')
         add_placeholder(self.fields['last_name'], 'Ex.: Smith')
+        add_placeholder(self.fields['password'], 'Type your password')
+        add_placeholder(self.fields['password2'], 'Repeat your password')
 
     password = forms.CharField(
         required=True,
-        widget=forms.PasswordInput(attrs={
-            'placeholder': 'Your password'
-        }),
+        widget=forms.PasswordInput(),
         error_messages={
             'required': 'Password must not be empty.'
         },
@@ -47,9 +47,7 @@ class RegisterForm(forms.ModelForm):
 
     password2 = forms.CharField(
         required=True,
-        widget=forms.PasswordInput(attrs={
-            'placeholder': 'Repeat your password'
-        })
+        widget=forms.PasswordInput()
     )
 
     class Meta:
@@ -78,15 +76,6 @@ class RegisterForm(forms.ModelForm):
             'username': {
                 'required': 'This field must not be empty.',
             }
-        }
-
-        widgets = {
-            'first_name': forms.TextInput(attrs={
-                'placeholder': 'Type your usename here',
-            }),
-            'password': forms.PasswordInput(attrs={
-                'placeholder': 'Type your password here'
-            })
         }
 
     def clean_password(self):
