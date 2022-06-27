@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
+import re
 
 
 def add_attr(field, attr_name, attr_new_val):
@@ -10,6 +11,16 @@ def add_attr(field, attr_name, attr_new_val):
 
 def add_placeholder(field, placeholder_val):
     add_attr(field, 'placeholder', placeholder_val)
+
+
+def strong_passord(password):
+    regex = re.compile(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,}$')
+    
+    if not regex.match(password):
+        raise ValidationError(
+            'Password must have at least one uppercase letter, one lowercase letter and one number. The lenght should be at least 8 characters.',
+            code='Invalid'
+        )
 
 
 class RegisterForm(forms.ModelForm):
@@ -30,7 +41,8 @@ class RegisterForm(forms.ModelForm):
         },
         help_text=(
             'Password must have at least one uppercase letter, one lowercase letter and one number. The lenght should be at least 8 characters.'
-        )
+        ),
+        validators=[strong_passord]
     )
 
     password2 = forms.CharField(
