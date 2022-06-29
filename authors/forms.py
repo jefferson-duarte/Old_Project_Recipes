@@ -42,12 +42,14 @@ class RegisterForm(forms.ModelForm):
         help_text=(
             'Password must have at least one uppercase letter, one lowercase letter and one number. The lenght should be at least 8 characters.'
         ),
-        validators=[strong_passord]
+        validators=[strong_passord],
+        label='Password',
     )
 
     password2 = forms.CharField(
         required=True,
-        widget=forms.PasswordInput()
+        widget=forms.PasswordInput(),
+        label='Password2',
     )
 
     class Meta:
@@ -65,7 +67,6 @@ class RegisterForm(forms.ModelForm):
             'first_name': 'First Name',
             'last_name': 'Last Name',
             'email': 'E-mail',
-            'password': 'Password',
         }
 
         help_texts = {
@@ -77,30 +78,6 @@ class RegisterForm(forms.ModelForm):
                 'required': 'This field must not be empty.',
             }
         }
-
-    def clean_password(self):
-        data = self.cleaned_data.get('password')
-
-        if 'atencao' in data:
-            raise ValidationError(
-                'Nao digite %(value)s no campo password.',
-                code='Invalid',
-                params={'value': '"atencao"'}
-            )
-
-        return data
-
-    def clean_first_name(self):
-        data = self.cleaned_data.get('first_name')
-
-        if 'Jefferson Duarte' in data:
-            raise ValidationError(
-                'Nao digite %(value)s no campo first name.',
-                code='Invalid',
-                params={'value': '"Jefferson Duarte"'}
-            )
-
-        return data
 
     def clean(self):
         cleaned_data = super().clean()
