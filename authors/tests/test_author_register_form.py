@@ -109,17 +109,17 @@ class AuthorRegisterFormIntegrationTest(DjangoTestCase):
 
         self.assertIn(msg, response.content.decode('utf-8'))
         self.assertIn(msg, response.context['form'].errors.get('password'))
-        
+
         self.form_data['password'] = '@Bc123456'
         url = reverse('authors:create')
         response = self.client.post(url, data=self.form_data, follow=True)
 
         self.assertNotIn(msg, response.context['form'].errors.get('password'))
-        
+
     def test_password_and_password_confirmation_are_equal(self):
         self.form_data['password'] = '@Bc123456'
         self.form_data['password2'] = '@Bc1234567'
-        
+
         url = reverse('authors:create')
         response = self.client.post(url, data=self.form_data, follow=True)
 
@@ -127,11 +127,16 @@ class AuthorRegisterFormIntegrationTest(DjangoTestCase):
 
         self.assertIn(msg, response.context['form'].errors.get('password'))
         self.assertIn(msg, response.content.decode('utf-8'))
-        
+
         self.form_data['password'] = '@Bc123456'
         self.form_data['password2'] = '@Bc123456'
-        
+
         url = reverse('authors:create')
         response = self.client.post(url, data=self.form_data, follow=True)
 
         self.assertNotIn(msg, response.content.decode('utf-8'))
+
+    def test_send_get_requuest_to_registration_create_view_returns_404(self):
+        url = reverse('authors:create')
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 404)
