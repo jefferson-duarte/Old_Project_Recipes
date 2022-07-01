@@ -9,8 +9,18 @@
 
         {% if request.user.is_authenticated %}
             <p><br>
-                You are logged in with {{ request.user.username }}
+                You are logged in with {{ request.user.username }}.
             </p>
+
+            <div>
+                <form action="{% url 'authors:logout' %}" method="POST">
+                    {% csrf_token %}
+                    Please,
+                    <input type="hidden" name="username" value="{{ request.user.username }}">
+                    <button class="plaintext-button" type="submit">click here</button>
+                    to logout.
+                </form>
+            </div>
     
         {% endif %}
     </div>

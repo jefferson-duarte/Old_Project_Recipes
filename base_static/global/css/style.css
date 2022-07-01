@@ -322,6 +322,15 @@ h1,h2,h3,h4,h5,h6 {
     color: var(--color-white);
 }
 
+.plaintext-button {
+    display: inline;
+    border: none;
+    background: none;
+    cursor: pointer;
+    color: var(--color-primary);
+    font-size: 1.6rem;
+}
+
 /* Messages */
 .messages-container {
     display: flex;
